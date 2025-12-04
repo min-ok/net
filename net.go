@@ -3,7 +3,6 @@ package net
 
 import (
 	"math"
-	"fmt"
 	"math/rand/v2"
 )
 
@@ -150,23 +149,4 @@ func CreateNet(neuronsNumber []int) *Net {
 
 func sigmoid(x float64) float64 {
 	return 1 / (1 + math.Exp(-x))
-}
-
-
-func main() {
-	fmt.Println("Hello!")
-	n := CreateNet([]int{2, 1, 5})
-
-
-	for _, v := range n.Biases {
-		fmt.Println(v)
-	}
-
-	for _, v := range n.Outputs {
-		fmt.Println(v)
-	}
-
-	for _, v := range n.Deltas {
-		fmt.Println(v)
-	}
 }
