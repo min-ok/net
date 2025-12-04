@@ -114,7 +114,7 @@ func (net *Net)Backward(target []float64, learningRate float64) {
 		}
 	}
 
-	for l := 0; l < le-1; l++ {
+	for l := 0; l < le-1; l += 1 {
 		for i := 0; i < net.NeuronsNumber[l]; i += 1 {
 			for j := 0; j < net.NeuronsNumber[l + 1]; j++ {
 				net.Weights[l][i][j] -= learningRate * net.Outputs[l][i] * net.Deltas[l + 1][j]
