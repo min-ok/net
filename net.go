@@ -98,33 +98,30 @@ func (net *Net)Forward(inputData []float64) []float64 {
 func (net *Net)Backward(target []float64, learningRate float64) {
 	le := len(net.NeuronsNumber)
 
-	// 1. Вычисляем дельты для выходного слоя
-	for i := 0; i < net.NeuronsNumber[le-1]; i++ {
-		output := net.Outputs[le-1][i]
-		net.Deltas[le-1][i] = (output - target[i]) * output * (1 - output) // sigmoid'
+	for i := 0; i < net.NeuronsNumber[le - 1]; i += 1 {
+		output := net.Outputs[le - 1][i]
+		net.Deltas[le - 1][i] = (output - target[i]) * output * (1 - output) // sigmoid'
 	}
 
-	// 2. Вычисляем дельты для скрытых слоёв (обратный проход)
-	for l := le - 2; l >= 0; l-- {
-		for i := 0; i < net.NeuronsNumber[l]; i++ {
+	for l := le - 2; l >= 0; l -= 1 {
+		for i := 0; i < net.NeuronsNumber[l]; i += 1 {
 			sum := 0.0
-			for j := 0; j < net.NeuronsNumber[l+1]; j++ {
-				sum += net.Weights[l][i][j] * net.Deltas[l+1][j]
+			for j := 0; j < net.NeuronsNumber[l + 1]; j += 1 {
+				sum += net.Weights[l][i][j] * net.Deltas[l + 1][j]
 			}
 			output := net.Outputs[l][i]
 			net.Deltas[l][i] = sum * output * (1 - output) // sigmoid'
 		}
 	}
 
-	// 3. Обновляем веса и bias
 	for l := 0; l < le-1; l++ {
-		for i := 0; i < net.NeuronsNumber[l]; i++ {
-			for j := 0; j < net.NeuronsNumber[l+1]; j++ {
-				net.Weights[l][i][j] -= learningRate * net.Outputs[l][i] * net.Deltas[l+1][j]
+		for i := 0; i < net.NeuronsNumber[l]; i += 1 {
+			for j := 0; j < net.NeuronsNumber[l + 1]; j++ {
+				net.Weights[l][i][j] -= learningRate * net.Outputs[l][i] * net.Deltas[l + 1][j]
 			}
 		}
-		for j := 0; j < net.NeuronsNumber[l+1]; j++ {
-			net.Biases[l][j] -= learningRate * net.Deltas[l+1][j]
+		for j := 0; j < net.NeuronsNumber[l + 1]; j += 1 {
+			net.Biases[l][j] -= learningRate * net.Deltas[l + 1][j]
 		}
 	}
 }
